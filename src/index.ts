@@ -2,6 +2,8 @@ import express, { Application, Request, Response } from "express";
 import morgan from "morgan";
 import helmet from "helmet";
 import Ratelimit from "express-rate-limit";
+
+import errormiddleware from "./middleware/error.middleware";
 const port = 3000;
 const app: Application = express();
 
@@ -18,6 +20,7 @@ app.use(
   })
 );
 app.get("/", (req: Request, res: Response) => {
+  throw new Error("error exist");
   res.json({
     message: "hello",
   });
@@ -29,6 +32,12 @@ app.post("/", (req: Request, res: Response) => {
   res.json({
     message: "hello from post",
     data: req.body,
+  });
+});
+app.use(errormiddleware);
+app.use((_req: Request, _res: Response) => {
+  _res.status(404).json({
+    message: "you are lost",
   });
 });
 app.listen(port, () => {
