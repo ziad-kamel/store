@@ -2,9 +2,14 @@ import express, { Application, Request, Response } from "express";
 import morgan from "morgan";
 import helmet from "helmet";
 import Ratelimit from "express-rate-limit";
-
 import errormiddleware from "./middleware/error.middleware";
-const port = 3000;
+import config from "./config";
+import db from "./database";
+import { Client } from "pg";
+
+console.log(config);
+
+const port = config.PORT || 3000;
 const app: Application = express();
 
 app.use(express.json());
@@ -33,6 +38,18 @@ app.post("/", (req: Request, res: Response) => {
     message: "hello from post",
     data: req.body,
   });
+});
+
+db.connect().then((Client) => {
+  return Client.query("SELECT NOW()")
+    .then((res) => {
+      Client.release();
+      console.log(res.rows);
+    })
+    .catch((err) => {
+      Client.release();
+      console.log(err.stack);
+    });
 });
 app.use(errormiddleware);
 app.use((_req: Request, _res: Response) => {
