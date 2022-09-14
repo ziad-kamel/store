@@ -9,6 +9,6 @@ const pool = new Pool({
   max: 4,
 });
 pool.on("error", (error: Error) => {
-  console.log(error.message);
+  console.error(error.message);
 });
 export default pool;

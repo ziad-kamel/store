@@ -5,11 +5,8 @@ import Ratelimit from "express-rate-limit";
 import errormiddleware from "./middleware/error.middleware";
 import config from "./config";
 import db from "./database";
-import { Client } from "pg";
 
-console.log(config);
-
-const port = config.PORT || 3000;
+const port = config.port || 3000;
 const app: Application = express();
 
 app.use(express.json());
@@ -40,17 +37,6 @@ app.post("/", (req: Request, res: Response) => {
   });
 });
 
-db.connect().then((Client) => {
-  return Client.query("SELECT NOW()")
-    .then((res) => {
-      Client.release();
-      console.log(res.rows);
-    })
-    .catch((err) => {
-      Client.release();
-      console.log(err.stack);
-    });
-});
 app.use(errormiddleware);
 app.use((_req: Request, _res: Response) => {
   _res.status(404).json({
