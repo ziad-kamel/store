@@ -4,7 +4,7 @@ import helmet from "helmet";
 import Ratelimit from "express-rate-limit";
 import errormiddleware from "./middleware/error.middleware";
 import config from "./config";
-import db from "./database";
+import routes from "./routes";
 
 const port = config.port || 3000;
 const app: Application = express();
@@ -21,19 +21,11 @@ app.use(
     message: "too many request",
   })
 );
+
+app.use("/api", routes);
 app.get("/", (req: Request, res: Response) => {
-  throw new Error("error exist");
   res.json({
     message: "hello",
-  });
-});
-
-app.post("/", (req: Request, res: Response) => {
-  console.log(req.body);
-
-  res.json({
-    message: "hello from post",
-    data: req.body,
   });
 });
 
