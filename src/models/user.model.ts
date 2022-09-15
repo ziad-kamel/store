@@ -103,7 +103,7 @@ class UserModel {
         );
         if (ispasswordvalid) {
           const userinfo = await connection.query(
-            `SELECT id, email, user_name, last_name FROM users WHERE email=($1)`,
+            `SELECT id, email, user_name,first_name, last_name FROM users WHERE email=($1)`,
             [email]
           );
           return userinfo.rows[0];
