@@ -89,6 +89,32 @@ class UserModel {
       );
     }
   }
+  async authenticate(email: string, password: string): Promise<User | null> {
+    try {
+      const connection = await db.connect();
+      const sql = `SELECT password FROM users WHERE email=$1`;
+      const result = await connection.query(sql, [email]);
+
+      if (result.rows.length) {
+        const { password: hashPassword } = result.rows[0];
+        const ispasswordvalid = bycrypt.compareSync(
+          `${password}${config.pepper}`,
+          hashPassword
+        );
+        if (ispasswordvalid) {
+          const userinfo = await connection.query(
+            `SELECT id, email, user_name, last_name FROM users WHERE email=($1)`,
+            [email]
+          );
+          return userinfo.rows[0];
+        }
+      }
+      connection.release();
+      return null;
+    } catch (error) {
+      throw new Error(`unable to login: ${(error as Error).message}`);
+    }
+  }
 }
 
 export default UserModel;

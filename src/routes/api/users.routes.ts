@@ -9,4 +9,6 @@ routes
   .patch(controllers.updateOne)
   .delete(controllers.deleteOne);
 
+routes.route("/authenticate").post(controllers.authenticate);
+
 export default routes;
