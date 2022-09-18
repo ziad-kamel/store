@@ -9,7 +9,7 @@ routes
   .post(controllers.create);
 routes
   .route("/:id")
-  .get(controllers.getOne)
+  .get(authentecationMiddleware, controllers.getOne)
   .patch(controllers.updateOne)
   .delete(controllers.deleteOne);
 
