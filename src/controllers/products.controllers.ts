@@ -1,7 +1,5 @@
 import { NextFunction, Request, Response } from "express";
 import ProductModel from "../models/product.model";
-import jwt from "jsonwebtoken";
-import config from "../config";
 
 const productModel = new ProductModel();
 
@@ -12,19 +10,9 @@ export const create = async (
 ) => {
   try {
     const product = await productModel.create(req.body);
-    const token = jwt.sign(
-      { product },
-      config.tokenSecret as unknown as string
-    );
-    if (!product) {
-      return res.status(404).json({
-        status: "error",
-        message: "the product not found",
-      });
-    }
-    return res.json({
+    res.json({
       status: "success",
-      data: { ...product, token },
+      data: { ...product },
       message: "product created succesfully",
     });
   } catch (error) {

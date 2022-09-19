@@ -3,7 +3,9 @@ import * as controllers from "../../controllers/products.controllers";
 import authentecationMiddleware from "../../middleware/authentication.middleware";
 
 const route = Router();
-route.route("/Index/").get(controllers.getMany);
-route.route("/Show/:id").get(controllers.getOne);
-route.route("/Create/").post(authentecationMiddleware, controllers.create);
+route
+  .route("/")
+  .get(controllers.getMany)
+  .post(authentecationMiddleware, controllers.create);
+route.route("/:id").get(controllers.getOne);
 export default route;
