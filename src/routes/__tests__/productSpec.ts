@@ -28,21 +28,17 @@ describe("Test Product API endpoints", () => {
   beforeAll(async () => {
     const createUser = await userModel.create(user);
     user.id = createUser.id;
-    console.log("log await 1");
 
     const createProduct = await productModel.create(product);
     product.id = createProduct.id;
-    console.log("log await 2");
   });
   afterAll(async () => {
     const connection = await db.connect();
     const sql = `DELETE FROM products;`;
     await connection.query(sql);
-    console.log("log await 3");
 
     const sql2 = `DELETE FROM users;`;
     await connection.query(sql2);
-    console.log("log await 4");
 
     connection.release();
   });
@@ -61,7 +57,6 @@ describe("Test Product API endpoints", () => {
       expect(id).toBe(user.id);
       expect(email).toBe("testo@test.com");
       token = userToken;
-      console.log("log await 5");
     });
 
     it("should be failed to authenticate whith wrong email", async () => {
@@ -73,7 +68,6 @@ describe("Test Product API endpoints", () => {
           password: "test123",
         });
       expect(res.status).toBe(404);
-      console.log("log await 6");
     });
   });
 
@@ -91,7 +85,6 @@ describe("Test Product API endpoints", () => {
       const { name, price } = res.body.data;
       expect(name).toBe("fairouz");
       expect(price).toBe(6);
-      console.log("log await 7");
     });
 
     it("should get list of products", async () => {
@@ -101,7 +94,6 @@ describe("Test Product API endpoints", () => {
       expect(res.status).toBe(200);
 
       expect(Object.keys(res.body.data).length).toBe(2);
-      console.log("log await 8");
     });
 
     it("should get product info ", async () => {
@@ -111,8 +103,6 @@ describe("Test Product API endpoints", () => {
       expect(res.status).toBe(200);
       expect(res.body.data.name).toBe("egg1");
       expect(res.body.data.price).toBe(3);
-      console.log("log await 9");
     });
-    console.log("log await 10");
   });
 });

@@ -5,6 +5,5 @@ import authentecationMiddleware from "../../middleware/authentication.middleware
 const route = Router();
 route.route("/Index/").get(controllers.getMany);
 route.route("/Show/:id").get(controllers.getOne);
-// route.route("/Create/").post(controllers.create);
 route.route("/Create/").post(authentecationMiddleware, controllers.create);
 export default route;
