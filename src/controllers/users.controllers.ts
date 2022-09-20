@@ -14,7 +14,14 @@ export const CreateUser = async (
     const user = await Model.createuser(req.body);
     res.json({
       Comment: `succes to create a user with id: ${user.id}`,
-      userInfo: { ...user },
+      userInfo: {
+        id: user.id,
+        email: user.email,
+        user_name: user.user_name,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        password: user.password,
+      },
     });
   } catch (error) {
     next(error);
@@ -46,39 +53,14 @@ export const GetOneUser = async (
     const user = await Model.getOneUser(req.params.id as unknown as string);
     res.json({
       Comment: `succes to get a user of id: ${user.id}`,
-      userInfo: { ...user },
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const UpdateUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const user = await Model.updateUser(req.body);
-    res.json({
-      Comment: "succes to update user",
-      userNewInfo: { ...user },
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-export const DeleteUser = async (
-  req: Request,
-  res: Response,
-  next: NextFunction
-) => {
-  try {
-    const user = await Model.deleteUser(req.params.id as unknown as string);
-    res.json({
-      Comment: `succes to delete user of id: ${user.id}`,
-      userInfo: { ...user },
+      userInfo: {
+        id: user.id,
+        email: user.email,
+        user_name: user.user_name,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        password: user.password,
+      },
     });
   } catch (error) {
     next(error);
@@ -102,7 +84,14 @@ export const AuthenticateUser = async (
     }
     return res.json({
       Comment: `user of id: ${user.id} is now authenticated`,
-      userInfo: { ...user, token },
+      userInfo: {
+        id: user.id,
+        email: user.email,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        password: user.password,
+        token,
+      },
     });
   } catch (error) {
     next(error);

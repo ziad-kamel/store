@@ -41,7 +41,6 @@ describe("Test Order API endpoints", () => {
   beforeAll(async () => {
     const createUser = await userModel.createuser(user);
     user.id = createUser.id;
-    console.log("///////////////yastaa///////////////////////");
 
     const createProduct = await productModel.create(product);
     product.id = createProduct.id;

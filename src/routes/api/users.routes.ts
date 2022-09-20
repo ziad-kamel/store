@@ -7,11 +7,7 @@ routes
   .route("/")
   .get(authentecationMiddleware, controllers.GetUsers)
   .post(controllers.CreateUser);
-routes
-  .route("/:id")
-  .get(authentecationMiddleware, controllers.GetOneUser)
-  .patch(controllers.UpdateUser)
-  .delete(controllers.DeleteUser);
+routes.route("/:id").get(authentecationMiddleware, controllers.GetOneUser);
 
 routes.route("/authenticate").post(controllers.AuthenticateUser);
 

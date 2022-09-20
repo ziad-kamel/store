@@ -94,36 +94,5 @@ describe("Test User API endpoints", () => {
       expect(res.body.userInfo.user_name).toBe("TestUser");
       expect(res.body.userInfo.email).toBe("testo@test.com");
     });
-
-    it("should update user info ", async () => {
-      const res = await req
-        .patch(`/api/users/${user.id}`)
-        .set("Content-type", "application/json")
-        .set("Authorization", `Bearer ${token}`)
-        .send({
-          ...user,
-          user_name: "ziadzoz",
-          first_name: "ziad",
-          last_name: "kamell",
-        });
-      expect(res.status).toBe(200);
-      const { id, email, user_name, first_name, last_name } =
-        res.body.userNewInfo;
-      expect(id).toBe(user.id);
-      expect(email).toBe(user.email);
-      expect(user_name).toBe("ziadzoz");
-      expect(first_name).toBe("ziad");
-      expect(last_name).toBe("kamell");
-    });
-
-    it("should delete user ", async () => {
-      const res = await req
-        .delete(`/api/users/${user.id}`)
-        .set("Content-type", "application/json")
-        .set("Authorization", `Bearer ${token}`);
-      expect(res.status).toBe(200);
-      expect(res.body.userInfo.id).toBe(user.id);
-      expect(res.body.userInfo.user_name).toBe("ziadzoz");
-    });
   });
 });

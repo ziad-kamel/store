@@ -5,7 +5,7 @@ import Error from "../interface/error.interface";
 
 const handelError = (next: NextFunction) => {
   const error: Error = new Error(
-    "an error ocured while login cindly try again"
+    "an error ocured while login kindly try again"
   );
   error.status = 401;
   next(error);

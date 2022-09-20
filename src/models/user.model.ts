@@ -53,42 +53,6 @@ class UserModel {
       );
     }
   }
-  async updateUser(user: User): Promise<User> {
-    try {
-      const connection = await db.connect();
-      const sql = `UPDATE users SET email=$1, user_name=$2, first_name=$3, last_name=$4, password=$5 
-      WHERE id=$6 
-      RETURNING id, email, user_name, first_name, last_name`;
-
-      const result = await connection.query(sql, [
-        user.email,
-        user.user_name,
-        user.first_name,
-        user.last_name,
-        hashPassword(user.password),
-        user.id,
-      ]);
-      connection.release();
-      return result.rows[0];
-    } catch (error) {
-      throw new Error(
-        `could not find user ${user.user_name} , ${(error as Error).message}`
-      );
-    }
-  }
-  async deleteUser(id: string): Promise<User> {
-    try {
-      const connection = await db.connect();
-      const sql = `DELETE FROM users WHERE id=($1) RETURNING id, email, user_name, first_name, last_name`;
-      const result = await connection.query(sql, [id]);
-      connection.release();
-      return result.rows[0];
-    } catch (error) {
-      throw new Error(
-        `could not delete user ${id} , ${(error as Error).message}`
-      );
-    }
-  }
   async authenticateUser(
     email: string,
     password: string
@@ -100,11 +64,11 @@ class UserModel {
 
       if (result.rows.length) {
         const { password: hashPassword } = result.rows[0];
-        const ispasswordvalid = bycrypt.compareSync(
+        const validpassword = bycrypt.compareSync(
           `${password}${configuration.pepper}`,
           hashPassword
         );
-        if (ispasswordvalid) {
+        if (validpassword) {
           const userinfo = await connection.query(
             `SELECT id, email, user_name,first_name, last_name FROM users WHERE email=($1)`,
             [email]

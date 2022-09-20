@@ -18,14 +18,6 @@ describe("User Model", () => {
       expect(userModel.createuser).toBeDefined();
     });
 
-    it("should have a update User method ", () => {
-      expect(userModel.updateUser).toBeDefined();
-    });
-
-    it("should have a delete User method ", () => {
-      expect(userModel.deleteUser).toBeDefined();
-    });
-
     it("should have a Authenticated User method ", () => {
       expect(userModel.authenticateUser).toBeDefined();
     });
@@ -82,25 +74,6 @@ describe("User Model", () => {
       expect(returnedUser.user_name).toBe(user.user_name);
       expect(returnedUser.first_name).toBe(user.first_name);
       expect(returnedUser.last_name).toBe(user.last_name);
-    });
-
-    it("Update one method should return a user with edited attributes", async () => {
-      const updatedUser = await userModel.updateUser({
-        ...user,
-        user_name: "testUser Updated",
-        first_name: "ziad",
-        last_name: "kamell",
-      });
-      expect(updatedUser.id).toBe(user.id);
-      expect(updatedUser.email).toBe(user.email);
-      expect(updatedUser.user_name).toBe("testUser Updated");
-      expect(updatedUser.first_name).toBe("ziad");
-      expect(updatedUser.last_name).toBe("kamell");
-    });
-
-    it("Delete one method should delete user form DB", async () => {
-      const deletedUser = await userModel.deleteUser(user.id as string);
-      expect(deletedUser.id).toBe(user.id);
     });
   });
 });
