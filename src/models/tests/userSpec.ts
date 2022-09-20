@@ -1,4 +1,4 @@
-import UserModel from "../../models/user.model";
+import UserModel from "../user.model";
 import db from "../../database";
 import User from "../../types/user.type";
 
@@ -7,27 +7,27 @@ const userModel = new UserModel();
 describe("User Model", () => {
   describe("Test method exists ", () => {
     it("should have an get Many Users method ", () => {
-      expect(userModel.getMany).toBeDefined();
+      expect(userModel.getUsers).toBeDefined();
     });
 
     it("should have a get One User method ", () => {
-      expect(userModel.getOne).toBeDefined();
+      expect(userModel.getOneUser).toBeDefined();
     });
 
     it("should have a create User method ", () => {
-      expect(userModel.create).toBeDefined();
+      expect(userModel.createuser).toBeDefined();
     });
 
     it("should have a update User method ", () => {
-      expect(userModel.updateOne).toBeDefined();
+      expect(userModel.updateUser).toBeDefined();
     });
 
     it("should have a delete User method ", () => {
-      expect(userModel.deleteOne).toBeDefined();
+      expect(userModel.deleteUser).toBeDefined();
     });
 
     it("should have a Authenticated User method ", () => {
-      expect(userModel.authenticate).toBeDefined();
+      expect(userModel.authenticateUser).toBeDefined();
     });
   });
 
@@ -41,7 +41,7 @@ describe("User Model", () => {
     } as User;
 
     beforeAll(async () => {
-      const createUser = await userModel.create(user);
+      const createUser = await userModel.createuser(user);
       user.id = createUser.id;
     });
 
@@ -53,7 +53,7 @@ describe("User Model", () => {
     });
 
     it("create should return a new user ", async () => {
-      const createdUser = await userModel.create({
+      const createdUser = await userModel.createuser({
         email: "testii@test.com",
         user_name: "TestUser",
         first_name: "Test",
@@ -71,12 +71,12 @@ describe("User Model", () => {
     });
 
     it("Get Many method should return all available users in DB", async () => {
-      const users = await userModel.getMany();
+      const users = await userModel.getUsers();
       expect(users.length).toBe(2);
     });
 
     it("Get one Method should return testo when called with ID", async () => {
-      const returnedUser = await userModel.getOne(user.id as string);
+      const returnedUser = await userModel.getOneUser(user.id as string);
       expect(returnedUser.id).toBe(user.id);
       expect(returnedUser.email).toBe(user.email);
       expect(returnedUser.user_name).toBe(user.user_name);
@@ -85,7 +85,7 @@ describe("User Model", () => {
     });
 
     it("Update one method should return a user with edited attributes", async () => {
-      const updatedUser = await userModel.updateOne({
+      const updatedUser = await userModel.updateUser({
         ...user,
         user_name: "testUser Updated",
         first_name: "ziad",
@@ -99,7 +99,7 @@ describe("User Model", () => {
     });
 
     it("Delete one method should delete user form DB", async () => {
-      const deletedUser = await userModel.deleteOne(user.id as string);
+      const deletedUser = await userModel.deleteUser(user.id as string);
       expect(deletedUser.id).toBe(user.id);
     });
   });

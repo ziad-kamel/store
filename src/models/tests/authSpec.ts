@@ -7,7 +7,7 @@ const userModel = new UserModel();
 describe("Authentication Module", () => {
   describe("Test method exists", () => {
     it("should have an authentica user method", () => {
-      expect(userModel.authenticate).toBeDefined();
+      expect(userModel.authenticateUser).toBeDefined();
     });
   });
   describe("Test Authentication Logic", () => {
@@ -20,7 +20,7 @@ describe("Authentication Module", () => {
     } as User;
 
     beforeAll(async () => {
-      const createUser = await userModel.create(user);
+      const createUser = await userModel.createuser(user);
       user.id = createUser.id;
     });
     afterAll(async () => {
@@ -31,7 +31,7 @@ describe("Authentication Module", () => {
     });
 
     it("Authenticate method should return the Authenticated user ", async () => {
-      const authenticateUser = await userModel.authenticate(
+      const authenticateUser = await userModel.authenticateUser(
         user.email as string,
         user.password as string
       );
@@ -42,7 +42,7 @@ describe("Authentication Module", () => {
     });
 
     it("Authenticate method should return null for wrong user", async () => {
-      const authenticateUser = await userModel.authenticate(
+      const authenticateUser = await userModel.authenticateUser(
         "ziad@ziad.com",
         "apappapapa"
       );

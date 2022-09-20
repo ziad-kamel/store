@@ -1,15 +1,15 @@
 import bycrypt from "bcrypt";
 import db from "../database";
 import User from "../types/user.type";
-import config from "../config";
+import configuration from "../configuration";
 
 const hashPassword = (password: string) => {
-  const salt = parseInt(config.salt as string, 10);
-  return bycrypt.hashSync(`${password}${config.pepper}`, salt);
+  const salt = parseInt(configuration.salt as string, 10);
+  return bycrypt.hashSync(`${password}${configuration.pepper}`, salt);
 };
 
 class UserModel {
-  async create(user: User): Promise<User> {
+  async createuser(user: User): Promise<User> {
     try {
       const connection = await db.connect();
       const sql = `INSERT INTO users (email, user_name, first_name, last_name, password) 
@@ -29,7 +29,7 @@ class UserModel {
       );
     }
   }
-  async getMany(): Promise<User[]> {
+  async getUsers(): Promise<User[]> {
     try {
       const connection = await db.connect();
       const sql = `SELECT id, email, user_name, first_name, last_name from users`;
@@ -40,7 +40,7 @@ class UserModel {
       throw new Error(`Error at retriving users ${(error as Error).message}`);
     }
   }
-  async getOne(id: string): Promise<User> {
+  async getOneUser(id: string): Promise<User> {
     try {
       const connection = await db.connect();
       const sql = `SELECT id, email, user_name, first_name, last_name FROM users WHERE id=($1)`;
@@ -53,7 +53,7 @@ class UserModel {
       );
     }
   }
-  async updateOne(user: User): Promise<User> {
+  async updateUser(user: User): Promise<User> {
     try {
       const connection = await db.connect();
       const sql = `UPDATE users SET email=$1, user_name=$2, first_name=$3, last_name=$4, password=$5 
@@ -76,7 +76,7 @@ class UserModel {
       );
     }
   }
-  async deleteOne(id: string): Promise<User> {
+  async deleteUser(id: string): Promise<User> {
     try {
       const connection = await db.connect();
       const sql = `DELETE FROM users WHERE id=($1) RETURNING id, email, user_name, first_name, last_name`;
@@ -89,7 +89,10 @@ class UserModel {
       );
     }
   }
-  async authenticate(email: string, password: string): Promise<User | null> {
+  async authenticateUser(
+    email: string,
+    password: string
+  ): Promise<User | null> {
     try {
       const connection = await db.connect();
       const sql = `SELECT password FROM users WHERE email=$1`;
@@ -98,7 +101,7 @@ class UserModel {
       if (result.rows.length) {
         const { password: hashPassword } = result.rows[0];
         const ispasswordvalid = bycrypt.compareSync(
-          `${password}${config.pepper}`,
+          `${password}${configuration.pepper}`,
           hashPassword
         );
         if (ispasswordvalid) {

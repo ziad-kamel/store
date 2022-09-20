@@ -1,4 +1,4 @@
-import OrdertModel from "../../models/order.model";
+import OrdertModel from "../order.model";
 import db from "../../database";
 import Order from "../../types/order.type";
 

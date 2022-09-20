@@ -1,4 +1,4 @@
-import ProductModel from "../../models/product.model";
+import ProductModel from "../product.model";
 import db from "../../database";
 import Product from "../../types/product.type";
 

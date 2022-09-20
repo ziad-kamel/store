@@ -15,7 +15,7 @@ const productModel = new ProductModel();
 const userModel = new UserModel();
 const orderModel = new OrderModel();
 
-const request = supertest(app);
+const req = supertest(app);
 let token = "";
 
 describe("Test Order API endpoints", () => {
@@ -39,8 +39,9 @@ describe("Test Order API endpoints", () => {
   } as Order;
 
   beforeAll(async () => {
-    const createUser = await userModel.create(user);
+    const createUser = await userModel.createuser(user);
     user.id = createUser.id;
+    console.log("///////////////yastaa///////////////////////");
 
     const createProduct = await productModel.create(product);
     product.id = createProduct.id;
@@ -66,7 +67,7 @@ describe("Test Order API endpoints", () => {
 
   describe("Test Authenticate method ", () => {
     it("should be able to authenticate to get token", async () => {
-      const res = await request
+      const res = await req
         .post("/api/users/authenticate")
         .set("Content-type", "application/json")
         .send({
@@ -74,14 +75,14 @@ describe("Test Order API endpoints", () => {
           password: "test123",
         });
       expect(res.status).toBe(200);
-      const { id, email, token: userToken } = res.body.data;
+      const { id, email, token: userToken } = res.body.userInfo;
       expect(id).toBe(user.id);
       expect(email).toBe("testo@test.com");
       token = userToken;
     });
 
     it("should be failed to authenticate whith wrong email", async () => {
-      const res = await request
+      const res = await req
         .post("/api/users/authenticate")
         .set("Content-type", "application/json")
         .send({
@@ -94,7 +95,7 @@ describe("Test Order API endpoints", () => {
 
   describe("Test CRUD API method for Orders", () => {
     it("should create new order", async () => {
-      const res = await request
+      const res = await req
         .post("/api/orders/")
         .set("Content-type", "application/json")
         .set("Authorization", `Bearer ${token}`)
@@ -111,7 +112,7 @@ describe("Test Order API endpoints", () => {
     });
 
     it("should get list of products", async () => {
-      const res = await request
+      const res = await req
         .get(`/api/orders/${user.id}`)
         .set("Content-type", "application/json")
         .set("Authorization", `Bearer ${token}`);

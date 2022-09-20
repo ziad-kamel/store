@@ -1,11 +1,11 @@
 import { Pool } from "pg";
-import config from "../config";
+import configuration from "../configuration";
 const pool = new Pool({
-  host: config.host,
-  database: config.database,
-  user: config.user,
-  password: config.password,
-  port: parseInt(config.dbPort as string, 10),
+  host: configuration.host,
+  database: configuration.database,
+  user: configuration.user,
+  password: configuration.password,
+  port: parseInt(configuration.dbPort as string, 10),
   max: 50,
 });
 pool.on("error", (error: Error) => {

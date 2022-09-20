@@ -3,10 +3,10 @@ import morgan from "morgan";
 import helmet from "helmet";
 import Ratelimit from "express-rate-limit";
 import errormiddleware from "./middleware/error.middleware";
-import config from "./config";
+import configuration from "./configuration";
 import routes from "./routes";
 
-const port = config.port || 3000;
+const port = configuration.port || 3000;
 const app: Application = express();
 
 app.use(express.json());

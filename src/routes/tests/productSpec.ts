@@ -8,7 +8,7 @@ import app from "../../index";
 
 const productModel = new ProductModel();
 const userModel = new UserModel();
-const request = supertest(app);
+const req = supertest(app);
 let token = "";
 
 describe("Test Product API endpoints", () => {
@@ -26,7 +26,7 @@ describe("Test Product API endpoints", () => {
   } as Product;
 
   beforeAll(async () => {
-    const createUser = await userModel.create(user);
+    const createUser = await userModel.createuser(user);
     user.id = createUser.id;
 
     const createProduct = await productModel.create(product);
@@ -45,7 +45,7 @@ describe("Test Product API endpoints", () => {
 
   describe("Test Authenticate method ", () => {
     it("should be able to authenticate to get token", async () => {
-      const res = await request
+      const res = await req
         .post("/api/users/authenticate")
         .set("Content-type", "application/json")
         .send({
@@ -53,14 +53,14 @@ describe("Test Product API endpoints", () => {
           password: "test123",
         });
       expect(res.status).toBe(200);
-      const { id, email, token: userToken } = res.body.data;
+      const { id, email, token: userToken } = res.body.userInfo;
       expect(id).toBe(user.id);
       expect(email).toBe("testo@test.com");
       token = userToken;
     });
 
     it("should be failed to authenticate whith wrong email", async () => {
-      const res = await request
+      const res = await req
         .post("/api/users/authenticate")
         .set("Content-type", "application/json")
         .send({
@@ -73,7 +73,7 @@ describe("Test Product API endpoints", () => {
 
   describe("Test CRUD API method for Products", () => {
     it("should create new product", async () => {
-      const res = await request
+      const res = await req
         .post("/api/products/")
         .set("Content-type", "application/json")
         .set("Authorization", `Bearer ${token}`)
@@ -88,7 +88,7 @@ describe("Test Product API endpoints", () => {
     });
 
     it("should get list of products", async () => {
-      const res = await request
+      const res = await req
         .get("/api/products/")
         .set("Content-type", "application/json");
       expect(res.status).toBe(200);
@@ -97,7 +97,7 @@ describe("Test Product API endpoints", () => {
     });
 
     it("should get product info ", async () => {
-      const res = await request
+      const res = await req
         .get(`/api/products/${product.id}`)
         .set("Content-type", "application/json");
       expect(res.status).toBe(200);

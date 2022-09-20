@@ -1,113 +1,108 @@
 import { NextFunction, Request, Response } from "express";
 import UserModel from "../models/user.model";
 import jwt from "jsonwebtoken";
-import config from "../config";
-const userModel = new UserModel();
+import configuration from "../configuration";
 
-export const create = async (
+const Model = new UserModel();
+
+export const CreateUser = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const user = await userModel.create(req.body);
+    const user = await Model.createuser(req.body);
     res.json({
-      status: "success",
-      data: { ...user },
-      message: "user created succesfully",
+      Comment: `succes to create a user with id: ${user.id}`,
+      userInfo: { ...user },
     });
   } catch (error) {
     next(error);
   }
 };
 
-export const getMany = async (
+export const GetUsers = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const users = await userModel.getMany();
+    const users = await Model.getUsers();
     res.json({
-      status: "success",
-      data: { ...users },
-      message: "users retrived succesfully",
+      Comment: "succes to get a list of all users in DB ",
+      users: { ...users },
     });
   } catch (error) {
     next(error);
   }
 };
 
-export const getOne = async (
+export const GetOneUser = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const user = await userModel.getOne(req.params.id as unknown as string);
+    const user = await Model.getOneUser(req.params.id as unknown as string);
     res.json({
-      status: "success",
-      data: { ...user },
-      message: "user retrived succesfully",
+      Comment: `succes to get a user of id: ${user.id}`,
+      userInfo: { ...user },
     });
   } catch (error) {
     next(error);
   }
 };
 
-export const updateOne = async (
+export const UpdateUser = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const user = await userModel.updateOne(req.body);
+    const user = await Model.updateUser(req.body);
     res.json({
-      status: "success",
-      data: { ...user },
-      message: "user updated succesfully",
+      Comment: "succes to update user",
+      userNewInfo: { ...user },
     });
   } catch (error) {
     next(error);
   }
 };
 
-export const deleteOne = async (
+export const DeleteUser = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const user = await userModel.deleteOne(req.params.id as unknown as string);
+    const user = await Model.deleteUser(req.params.id as unknown as string);
     res.json({
-      status: "success",
-      data: { ...user },
-      message: "user deleted succesfully",
+      Comment: `succes to delete user of id: ${user.id}`,
+      userInfo: { ...user },
     });
   } catch (error) {
     next(error);
   }
 };
 
-export const authenticate = async (
+export const AuthenticateUser = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const { email, password } = req.body;
-    const user = await userModel.authenticate(email, password);
-    const token = jwt.sign({ user }, config.tokenSecret as unknown as string);
+    const user = await Model.authenticateUser(email, password);
+    const token = jwt.sign({ user }, configuration.token as unknown as string);
     if (!user) {
       return res.status(404).json({
-        status: "error",
-        message: "the username and password do not match please try again",
+        warning: "error",
+        Comment: "the username and password do not match please try again",
       });
     }
     return res.json({
-      status: "success",
-      data: { ...user, token },
-      message: "user authenticated succesfully",
+      Comment: `user of id: ${user.id} is now authenticated`,
+      userInfo: { ...user, token },
     });
   } catch (error) {
     next(error);

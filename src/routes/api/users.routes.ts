@@ -5,14 +5,14 @@ import authentecationMiddleware from "../../middleware/authentication.middleware
 const routes = Router();
 routes
   .route("/")
-  .get(authentecationMiddleware, controllers.getMany)
-  .post(controllers.create);
+  .get(authentecationMiddleware, controllers.GetUsers)
+  .post(controllers.CreateUser);
 routes
   .route("/:id")
-  .get(authentecationMiddleware, controllers.getOne)
-  .patch(controllers.updateOne)
-  .delete(controllers.deleteOne);
+  .get(authentecationMiddleware, controllers.GetOneUser)
+  .patch(controllers.UpdateUser)
+  .delete(controllers.DeleteUser);
 
-routes.route("/authenticate").post(controllers.authenticate);
+routes.route("/authenticate").post(controllers.AuthenticateUser);
 
 export default routes;

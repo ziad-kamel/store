@@ -25,5 +25,5 @@ export default {
   password: POSTGRES_PASSWORD,
   pepper: BCRYPT_PASSWORD,
   salt: SALT_ROUNDS,
-  tokenSecret: TOKEN_SECRET,
+  token: TOKEN_SECRET,
 };
