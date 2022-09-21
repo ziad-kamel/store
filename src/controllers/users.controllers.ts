@@ -75,7 +75,7 @@ export const AuthenticateUser = async (
   try {
     const { email, password } = req.body;
     const user = await Model.authenticateUser(email, password);
-    const token = jwt.sign({ user }, configuration.token as unknown as string);
+    const token = jwt.sign({ user }, configuration.token as string);
     if (!user) {
       return res.status(404).json({
         warning: "error",

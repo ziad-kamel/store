@@ -30,9 +30,7 @@ export const GetOrders = async (
   next: NextFunction
 ) => {
   try {
-    const orders = await orderModel.getOrders(
-      req.params.id as unknown as string
-    );
+    const orders = await orderModel.getOrders(req.params.id as string);
     res.json({
       Comment: `succes to get a list of all users in DB`,
       orders: {

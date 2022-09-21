@@ -41,9 +41,7 @@ export const GetOneProduct = async (
   next: NextFunction
 ) => {
   try {
-    const product = await productModel.getOneProduct(
-      req.params.id as unknown as string
-    );
+    const product = await productModel.getOneProduct(req.params.id as string);
     res.json({
       message: "product retrived succesfully",
       productInfo: { id: product.id, name: product.name, price: product.price },
