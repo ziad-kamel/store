@@ -1,10 +1,10 @@
 import { Router } from "express";
 import * as controllers from "../../controllers/orders.controllers";
-import authentecationMiddleware from "../../middleware/authentication.middleware";
+import Authorization from "../../middleware/authentication.middleware";
 
 const routes = Router();
 
-routes.route("/").post(authentecationMiddleware, controllers.create);
-routes.route("/:id").get(authentecationMiddleware, controllers.getMany);
+routes.route("/").post(Authorization, controllers.createOrder);
+routes.route("/:id").get(Authorization, controllers.GetOrders);
 
 export default routes;

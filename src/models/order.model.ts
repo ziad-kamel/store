@@ -2,7 +2,7 @@ import db from "../database";
 import Order from "../types/order.type";
 
 class OrderModel {
-  async create(order: Order): Promise<Order> {
+  async createOrder(order: Order): Promise<Order> {
     try {
       const connection = await db.connect();
       const sql = `INSERT INTO orders (product_id, user_id, quantity)
@@ -22,7 +22,7 @@ class OrderModel {
       );
     }
   }
-  async getMany(user_id: string): Promise<Order[]> {
+  async getOrders(user_id: string): Promise<Order[]> {
     try {
       const connection = await db.connect();
       const sql = `SELECT * FROM orders WHERE user_id=($1)`;
@@ -38,19 +38,6 @@ class OrderModel {
       return [result.rows[0].id, result1.rows[0], result2.rows];
     } catch (error) {
       throw new Error(`Error at retriving orders ${(error as Error).message}`);
-    }
-  }
-  async getOne(id: string): Promise<Order> {
-    try {
-      const connection = await db.connect();
-      const sql = `SELECT * FROM orders WHERE id=($1)`;
-      const result = await connection.query(sql, [id]);
-      connection.release();
-      return result.rows[0];
-    } catch (error) {
-      throw new Error(
-        `could not find order ${id} , ${(error as Error).message}`
-      );
     }
   }
 }

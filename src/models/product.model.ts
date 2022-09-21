@@ -2,7 +2,7 @@ import db from "../database";
 import Product from "../types/product.type";
 
 class ProductModel {
-  async create(product: Product): Promise<Product> {
+  async createproduct(product: Product): Promise<Product> {
     try {
       const connection = await db.connect();
       const sql = `INSERT INTO products (name, price) values ($1, $2) returning id, name, price`;
@@ -15,7 +15,7 @@ class ProductModel {
       );
     }
   }
-  async getMany(): Promise<Product[]> {
+  async getProducts(): Promise<Product[]> {
     try {
       const connection = await db.connect();
       const sql = `SELECT * FROM products`;
@@ -26,7 +26,7 @@ class ProductModel {
       throw new Error(`Error at retriving Product ${(error as Error).message}`);
     }
   }
-  async getOne(id: string): Promise<Product> {
+  async getOneProduct(id: string): Promise<Product> {
     try {
       const connection = await db.connect();
       const sql = `SELECT * FROM products WHERE id=($1)`;

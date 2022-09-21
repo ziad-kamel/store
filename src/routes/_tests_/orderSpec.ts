@@ -42,10 +42,10 @@ describe("Test Order API endpoints", () => {
     const createUser = await userModel.createuser(user);
     user.id = createUser.id;
 
-    const createProduct = await productModel.create(product);
+    const createProduct = await productModel.createproduct(product);
     product.id = createProduct.id;
 
-    const createOrder = await orderModel.create(order);
+    const createOrder = await orderModel.createOrder(order);
     order.id = createOrder.id;
     order.product_id = createProduct.id;
     order.user_id = createUser.id as string;
@@ -104,7 +104,7 @@ describe("Test Order API endpoints", () => {
           quantity: 6,
         } as Order);
       expect(res.status).toBe(200);
-      const { product_id, user_id, quantity } = res.body.data;
+      const { product_id, user_id, quantity } = res.body.orderInfo;
       expect(product_id).toBe(product.id);
       expect(user_id).toBe(user.id);
       expect(quantity).toBe(6);
@@ -117,7 +117,7 @@ describe("Test Order API endpoints", () => {
         .set("Authorization", `Bearer ${token}`);
       expect(res.status).toBe(200);
 
-      expect(Object.keys(res.body.data).length).toBe(3);
+      expect(Object.keys(res.body.orders).length).toBe(3);
     });
   });
 });

@@ -29,7 +29,7 @@ describe("Test Product API endpoints", () => {
     const createUser = await userModel.createuser(user);
     user.id = createUser.id;
 
-    const createProduct = await productModel.create(product);
+    const createProduct = await productModel.createproduct(product);
     product.id = createProduct.id;
   });
   afterAll(async () => {
@@ -82,7 +82,7 @@ describe("Test Product API endpoints", () => {
           price: 6,
         } as Product);
       expect(res.status).toBe(200);
-      const { name, price } = res.body.data;
+      const { name, price } = res.body.productInfo;
       expect(name).toBe("fairouz");
       expect(price).toBe(6);
     });
@@ -93,7 +93,7 @@ describe("Test Product API endpoints", () => {
         .set("Content-type", "application/json");
       expect(res.status).toBe(200);
 
-      expect(Object.keys(res.body.data).length).toBe(2);
+      expect(Object.keys(res.body.products).length).toBe(2);
     });
 
     it("should get product info ", async () => {
@@ -101,8 +101,8 @@ describe("Test Product API endpoints", () => {
         .get(`/api/products/${product.id}`)
         .set("Content-type", "application/json");
       expect(res.status).toBe(200);
-      expect(res.body.data.name).toBe("egg1");
-      expect(res.body.data.price).toBe(3);
+      expect(res.body.productInfo.name).toBe("egg1");
+      expect(res.body.productInfo.price).toBe(3);
     });
   });
 });

@@ -7,11 +7,11 @@ const ordertModel = new OrdertModel();
 describe("Order Model", () => {
   describe("Test method exists ", () => {
     it("should have an get Many Orders method ", () => {
-      expect(ordertModel.getMany).toBeDefined();
+      expect(ordertModel.getOrders).toBeDefined();
     });
 
     it("should have a create Order method ", () => {
-      expect(ordertModel.create).toBeDefined();
+      expect(ordertModel.createOrder).toBeDefined();
     });
   });
 
@@ -22,7 +22,7 @@ describe("Order Model", () => {
       quantity: 5,
     } as Order;
     beforeAll(async () => {
-      const createOrder = await ordertModel.create(order);
+      const createOrder = await ordertModel.createOrder(order);
       order.id = createOrder.id;
     });
 
@@ -34,7 +34,7 @@ describe("Order Model", () => {
     });
 
     it("create should return a new order ", async () => {
-      const createOrder = await ordertModel.create({
+      const createOrder = await ordertModel.createOrder({
         product_id: "2",
         user_id: "80973e75-d233-4693-a22a-1368505a4f83",
         quantity: 9,
@@ -49,7 +49,7 @@ describe("Order Model", () => {
     });
 
     it("Get Many method should return all available orders", async () => {
-      const orders = await ordertModel.getMany(
+      const orders = await ordertModel.getOrders(
         "80973e75-d233-4693-a22a-1368505a4f83"
       );
       expect(orders.length).toBe(3);

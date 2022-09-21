@@ -3,53 +3,50 @@ import ProductModel from "../models/product.model";
 
 const productModel = new ProductModel();
 
-export const create = async (
+export const createProduct = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const product = await productModel.create(req.body);
+    const product = await productModel.createproduct(req.body);
     res.json({
-      status: "success",
-      data: { ...product },
-      message: "product created succesfully",
+      Comment: `succes to create a user with id:${product.id}`,
+      productInfo: { id: product.id, name: product.name, price: product.price },
     });
   } catch (error) {
     next(error);
   }
 };
 
-export const getMany = async (
+export const GetProducts = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const products = await productModel.getMany();
+    const products = await productModel.getProducts();
     res.json({
-      status: "success",
-      data: { ...products },
-      message: "products retrived successfully",
+      Comment: "succes to get a list of all users in DB",
+      products: { ...products },
     });
   } catch (error) {
     next(error);
   }
 };
 
-export const getOne = async (
+export const GetOneProduct = async (
   req: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
-    const product = await productModel.getOne(
+    const product = await productModel.getOneProduct(
       req.params.id as unknown as string
     );
     res.json({
-      status: "success",
-      data: { ...product },
       message: "product retrived succesfully",
+      productInfo: { id: product.id, name: product.name, price: product.price },
     });
   } catch (error) {
     next(error);
