@@ -12,7 +12,12 @@ export const createProduct = async (
     const product = await productModel.createproduct(req.body);
     res.json({
       Comment: `succes to create a user with id:${product.id}`,
-      productInfo: { id: product.id, name: product.name, price: product.price },
+      productInfo: {
+        id: product.id,
+        name: product.name,
+        price: product.price,
+        img: product.img,
+      },
     });
   } catch (error) {
     next(error);
@@ -27,8 +32,8 @@ export const GetProducts = async (
   try {
     const products = await productModel.getProducts();
     res.json({
-      Comment: "succes to get a list of all users in DB",
-      products: { ...products },
+      Comment: "succes to get a list of all products in DB",
+      products: [...products],
     });
   } catch (error) {
     next(error);

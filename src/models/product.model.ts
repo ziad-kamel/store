@@ -5,8 +5,12 @@ class ProductModel {
   async createproduct(product: Product): Promise<Product> {
     try {
       const connection = await db.connect();
-      const sql = `INSERT INTO products (name, price) values ($1, $2) returning id, name, price`;
-      const result = await connection.query(sql, [product.name, product.price]);
+      const sql = `INSERT INTO products (name, price, img) values ($1, $2, $3) returning id, name, price, img`;
+      const result = await connection.query(sql, [
+        product.name,
+        product.price,
+        product.img,
+      ]);
       connection.release();
       return result.rows[0];
     } catch (error) {

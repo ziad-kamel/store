@@ -1,30 +1,33 @@
 module.exports = {
-    "env": {
-        "browser": true,
-        "es2021": true,
-        "node":true
-    },
-    "extends": [
-        "eslint:recommended",
-        "plugin:@typescript-eslint/recommended",
-        'prettier'
+  extends: ["airbnb", "plugin:prettier/recommended"],
+  env: {
+    jest: true,
+    browser: true,
+  },
+  rules: {
+    "import/no-extraneous-dependencies": "off",
+    "import/prefer-default-export": "off",
+    "no-confusing-arrow": "off",
+    "linebreak-style": "off",
+    "arrow-parens": ["error", "as-needed"],
+    "comma-dangle": [
+      "error",
+      {
+        arrays: "always-multiline",
+        objects: "always-multiline",
+        imports: "always-multiline",
+        exports: "always-multiline",
+        functions: "ignore",
+      },
     ],
-    "overrides": [
-    ],
-    "parser": "@typescript-eslint/parser",
-    "parserOptions": {
-        "ecmaVersion": 13,
-        "sourceType": "module"
-    },
-    "plugins": [
-        "@typescript-eslint",
-        'prettier',
-    ],
-    "rules": {
-        'prettier/prettier':2,
-        // quotes:['error','never'],
-        'no-console': 0,
-        'no-var':'error',
-        'prefer-const':'error',
-    },
+    "no-plusplus": "off",
+  },
+  parser: "babel-eslint",
+  plugins: ["react"],
+  globals: {
+    browser: true,
+    $: true,
+    before: true,
+    document: true,
+  },
 };
